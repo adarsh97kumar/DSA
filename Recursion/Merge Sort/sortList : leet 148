@@ -1,1 +1,86 @@
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+
+    ListNode* findRightHead(ListNode*& head)
+    {
+        ListNode* prev = head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast && fast->next)
+        {
+            
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;   
+        }
+        prev->next = NULL;
+
+        return slow;
+
+    }
+
+     
+  //merge two sorted LL
+    ListNode* merge(ListNode* leftHead, ListNode* rightHead)
+    {
+        if(!leftHead)
+            return rightHead;
+        
+        if(!rightHead)
+            return leftHead;
+        
+        ListNode* res = NULL;
+
+        if(leftHead->val <= rightHead->val)
+        {
+            res = leftHead;
+            res->next = merge(leftHead->next, rightHead);
+        }
+        else
+        {
+            res = rightHead;
+            res->next = merge(leftHead, rightHead->next);
+        }
+
+        return res;
+    }
+
+    void mergeSort(ListNode*& head)
+    {
+        if(!head->next)
+        {
+            head->next = NULL;
+            return;
+        }
+            
+
+        ListNode* leftHead = head;
+        ListNode* rightHead = findRightHead(head);
+        cout<<leftHead->val<<":"<<rightHead->val<<" ";
+
+        mergeSort(leftHead);
+        mergeSort(rightHead);
+        head = merge(leftHead, rightHead);
+    }
+
+    ListNode* sortList(ListNode* head) {
+        if(!head)
+            return head;
+        
+        mergeSort(head);
+
+        return head;
+    }
+};
