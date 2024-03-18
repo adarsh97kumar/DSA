@@ -1,0 +1,61 @@
+class Solution {
+public:
+    void merge(vector<int>& nums, int l, int mid, int r)
+    {
+
+        int n1 = mid-l+1, n2 = r - mid;
+        int Left[n1];
+        int Right[n2];
+
+        int k=l;
+       
+
+        for(int i=0; i<n1; i++)
+        {
+            Left[i] = nums[k++];
+        }
+        for(int i=0; i<n2; i++)
+        {
+            Right[i] = nums[k++];
+        }
+
+        int idx = l, i=0, j=0;
+
+        
+        while(i<n1 || j<n2)
+        {
+           // cout<<i<<"-"<<n1<<" "<<j<<"-"<<n2<<" ";
+
+            if(j>=n2 || (i<n1 && Left[i] <= Right[j]))
+            {
+                nums[idx] = Left[i++];
+            }
+            else if(i>=n1 || (j<n2 && Left[i] > Right[j]))
+            {
+                nums[idx] = Right[j++];
+            }
+            idx++;
+        }
+        //cout<<"||"<<" ";
+    }
+
+    void mergeSort(vector<int>& nums, int l, int r)
+    {
+        if(l==r)
+        {
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+
+        mergeSort(nums, l, mid);
+        mergeSort(nums, mid+1, r);
+
+        merge(nums, l, mid, r);
+    }
+
+    vector<int> sortArray(vector<int>& nums) {   
+        mergeSort(nums, 0, nums.size()-1);
+        return nums;
+    }
+};
