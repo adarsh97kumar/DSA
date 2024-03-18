@@ -1,0 +1,32 @@
+class Solution{
+public:
+    void arrange(int num, stack<int> &st)
+    {
+        if(st.empty())
+        {
+            st.push(num);
+            return;
+        }
+        
+        int temp = st.top();
+        st.pop();
+        arrange(num, st);
+        st.push(temp);
+    }
+    
+    void rec(stack<int> &st)
+    {
+        if(st.size() == 1)
+            return;
+        
+        int temp = st.top();
+        st.pop();
+        rec(st);
+        
+        arrange(temp, st);
+    }
+
+    void Reverse(stack<int> &St){
+            rec(St);  
+    }
+};
