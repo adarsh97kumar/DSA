@@ -1,0 +1,49 @@
+"aaaab"     ".*b"
+take '*' with previous char
+and decision for '*' as take or not take (0 times)
+ 
+
+
+
+
+
+class Solution {
+public:
+    int dp[21][21];
+
+    bool solve(string& s, int i, string& p, int j)
+    {
+
+        if(j == p.size())
+        {
+            return (i == s.size());
+        }
+
+         if(dp[i][j] != -1)
+         {
+            return dp[i][j];
+         }
+
+        bool isFirstCharMatch = false;
+
+        if(i<s.size() && (s[i] == p[j] || p[j] == '.'))
+            isFirstCharMatch = true;
+        
+        if(j+1 < p.size() && (p[j+1] == '*'))
+        {
+            bool not_take = solve(s, i, p, j+2);
+
+            bool take = (isFirstCharMatch && solve(s, i+1, p, j));
+
+            return dp[i][j] = not_take || take;
+        }
+        
+        return dp[i][j] = (isFirstCharMatch && solve(s, i+1, p, j+1));
+    
+    }
+
+    bool isMatch(string s, string p) {
+        memset(dp, -1, sizeof(dp));
+        return solve(s, 0, p, 0);
+    }
+};
