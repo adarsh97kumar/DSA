@@ -1,0 +1,43 @@
+search in left and right side
+if find either p and q in left than start searching in the right, once found either of the value return root
+keep leftV and rigthV
+if both leftV and rightV, than return the root
+else return the one which is having the value
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* solve(TreeNode* root, TreeNode* p, TreeNode* q)
+    {
+        if(root == NULL)
+            return root;
+        
+        if(root == p || root == q)
+            return root;
+
+        TreeNode* leftN = solve(root->left, p, q);
+        TreeNode* rightN = solve(root->right, p, q);
+
+        if(leftN && rightN)
+            return root;
+        
+        if(leftN && rightN == NULL)
+            return leftN;
+            
+        return rightN;
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+            return solve(root, p, q);
+    }
+};
