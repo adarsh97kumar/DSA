@@ -1,0 +1,46 @@
+Count all nodes present in tree
+traverse the tree using dfs, and keep the index as keeping the tree in array -> as left child index as 2*i and right indes as 2*i+1
+
+int totalNodes = 0;
+
+    void TotalNodes(TreeNode* root)
+    {
+        if(root == NULL)
+            return;
+
+        totalNodes++;
+        if(root->left)
+        {   
+            TotalNodes(root->left);
+        }
+
+        if(root->right)
+        {
+            TotalNodes(root->right);
+        }
+    }
+
+    bool dfs(TreeNode* root, int i)
+    {
+
+        if(root == NULL)
+            return true;
+
+
+        if(i > totalNodes)
+            return false;
+
+        
+        
+
+        return (dfs(root->left, 2*i) && 
+                dfs(root->right, 2*i+1));
+    }
+
+
+    bool isCompleteTree(TreeNode* root) {
+        //return bfs(root);
+        TotalNodes(root);
+        int i=1;
+        return dfs(root, i);
+    }
